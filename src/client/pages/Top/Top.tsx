@@ -17,16 +17,11 @@ export const Top: FC = () => {
     document.title = '買えるオーガニック';
   }, []);
 
-  if (recommendation === undefined || features === undefined) {
-    return null;
-  }
-
   return (
     <>
       <Layout>
         <div>
-          <ProductHeroImage product={recommendation.product} title="今週のオススメ" />
-
+          {recommendation && <ProductHeroImage product={recommendation.product} title="今週のオススメ" />}
           <div className={styles.featureList()}>
             {features.map((featureSection) => {
               return (
