@@ -1,6 +1,5 @@
 import { useFormik } from 'formik';
 import type { ChangeEventHandler, FC } from 'react';
-import zipcodeJa from 'zipcode-ja';
 
 import { PrimaryButton } from '../../foundation/PrimaryButton';
 import { TextInput } from '../../foundation/TextInput';
@@ -32,13 +31,22 @@ export const OrderForm: FC<Props> = ({ onSubmit }) => {
   const handleZipcodeChange: ChangeEventHandler<HTMLInputElement> = (event) => {
     formik.handleChange(event);
 
-    const zipCode = event.target.value;
-    const address = zipcodeJa[zipCode]?.address ?? [];
-    const prefecture = address.shift();
-    const city = address.join(' ');
+    const url = new URL('https://zipcloud.ibsnet.co.jp/api/search');
+    url.searchParams.append('zipcode', event.target.value);
+    fetch(url.toString())
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status !== 200) {
+          return;
+        }
+        const { address1, address2, address3 } = data.results[0];
 
-    formik.setFieldValue('prefecture', prefecture);
-    formik.setFieldValue('city', city);
+        const prefecture = address1;
+        const city = [address2, address3].join(' ');
+
+        formik.setFieldValue('prefecture', prefecture);
+        formik.setFieldValue('city', city);
+      });
   };
 
   return (
