@@ -1,4 +1,3 @@
-import * as currencyFormatter from 'currency-formatter';
 import type { FC } from 'react';
 import { memo } from 'react';
 
@@ -28,7 +27,9 @@ export const OrderPreview: FC<Props> = memo(({ onRemoveCartItem, onUpdateCartIte
           );
         })}
       </ul>
-      <p className={styles.totalPrice()}>{currencyFormatter.format(totalPrice, { code: 'JPY', precision: 0 })}</p>
+      <p className={styles.totalPrice()}>
+        {new Intl.NumberFormat('ja-JP', { currency: 'JPY', style: 'currency' }).format(totalPrice)}
+      </p>
     </div>
   );
 });
