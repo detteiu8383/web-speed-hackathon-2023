@@ -208,13 +208,34 @@ export type AuthUserFragmentResponse = UserFragmentResponse & {
   orders: OrderFragmentResponse[];
 };
 
+export const FeatureProductFragment = gql`
+  ${ProductMediaFragment}
+  ${LimitedTimeOfferFragment}
+
+  fragment FeatureProductFragment on Product {
+    id
+    name
+    price
+    media {
+      ...ProductMediaFragment
+    }
+    offers {
+      ...LimitedTimeOfferFragment
+    }
+  }
+`;
+export type FeatureProductFragmentResponse = Pick<Product, 'id' | 'name' | 'price'> & {
+  media: ProductMediaFragmentResponse[];
+  offers: LimitedTimeOfferFragmentResponse[];
+};
+
 export const FeatureItemFragment = gql`
-  ${ProductFragment}
+  ${FeatureProductFragment}
 
   fragment FeatureItemFragment on FeatureItem {
     id
     product {
-      ...ProductFragment
+      ...FeatureProductFragment
     }
   }
 `;
