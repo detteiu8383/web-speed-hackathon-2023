@@ -23,7 +23,7 @@ import { getFileList } from './get_file_list';
 
 const TZ = process.env.TZ ?? 'Asia/Tokyo';
 const BASE_DATE = process.env.SEED_BASE_UNIXTIME
-  ? Temporal.Instant.fromEpochMilliseconds(Number(process.env.SEED_BASE_UNIXTIME))
+  ? Temporal.Instant.fromEpochSeconds(Number(process.env.SEED_BASE_UNIXTIME))
   : Temporal.Now.instant();
 
 const familyNames = [
