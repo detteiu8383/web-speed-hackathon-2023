@@ -12,7 +12,7 @@ export const item = () => css`
   padding: 4px 0;
 `;
 
-export const avaterImage = () => css`
+export const avatarImage = () => css`
   border-radius: 50%;
   overflow: hidden;
 `;
