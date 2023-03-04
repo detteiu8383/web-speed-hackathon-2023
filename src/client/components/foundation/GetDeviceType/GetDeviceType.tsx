@@ -11,37 +11,32 @@ type Props = {
   children: ({ deviceType }: { deviceType: DeviceType }) => ReactNode;
 };
 
-export class GetDeviceType extends Component<Props> {
-  private _timer: number | null;
-  private _windowWidth: number;
+export class GetDeviceType extends Component<Props, { isDesktop: boolean }> {
+  private VIEWPORT_SIZE_QUERY = 'screen and (min-width: 1024px)';
 
   constructor(props: Props) {
     super(props);
-    this._windowWidth = window.innerWidth;
-    this._timer = null;
+    this.state = {
+      isDesktop: window.matchMedia(this.VIEWPORT_SIZE_QUERY).matches,
+    };
   }
 
   componentDidMount(): void {
-    this._checkIsDesktop();
+    window.matchMedia(this.VIEWPORT_SIZE_QUERY).addEventListener('change', this.onChangeViewportSize.bind(this));
   }
+
+  onChangeViewportSize = (e: MediaQueryListEvent): void => {
+    this.setState({ isDesktop: e.matches });
+  };
 
   componentWillUnmount(): void {
-    if (this._timer != null) {
-      window.clearImmediate(this._timer);
-    }
-  }
-
-  private _checkIsDesktop() {
-    this._windowWidth = window.innerWidth;
-    this.forceUpdate(() => {
-      this._timer = window.setImmediate(this._checkIsDesktop.bind(this));
-    });
+    window.matchMedia(this.VIEWPORT_SIZE_QUERY).removeEventListener('change', this.onChangeViewportSize.bind(this));
   }
 
   render() {
     const { children: render } = this.props;
     return render({
-      deviceType: this._windowWidth >= 1024 ? DeviceType.DESKTOP : DeviceType.MOBILE,
+      deviceType: this.state.isDesktop ? DeviceType.DESKTOP : DeviceType.MOBILE,
     });
   }
 }
