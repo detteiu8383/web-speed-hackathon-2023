@@ -1,3 +1,6 @@
+# fly.toml file generated for cold-grass-7236 on 2023-03-04T12:13:51+09:00
+
+app = "cold-grass-7236"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
