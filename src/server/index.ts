@@ -56,8 +56,14 @@ async function init(): Promise<void> {
     }),
   );
 
-  app.use(serve(rootResolve('dist')));
-  app.use(serve(rootResolve('public')));
+  const serveOptions: serve.Options = {
+    setHeaders: (res) => {
+      res.setHeader('Cache-Control', 'public, max-age=600');
+    },
+  };
+
+  app.use(serve(rootResolve('dist'), serveOptions));
+  app.use(serve(rootResolve('public'), serveOptions));
 
   app.use(async (ctx) => await send(ctx, rootResolve('/dist/index.html')));
 
