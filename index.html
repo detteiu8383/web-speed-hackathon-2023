@@ -4,13 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="robots" content="noindex" />
-    <title><%= title %></title>
+    <title>買えるオーガニック</title>
 
-    <% for (var href of videos) { %>
-    <link rel="preload" as="video" fetchPriority="high" href="<%= href %>" />
-    <% } %>
+    <!-- <link rel="preload" as="video" fetchPriority="high" href="/videos/001.mp4" />
+    <link rel="preload" as="video" fetchPriority="high" href="/videos/002.mp4" />
+    <link rel="preload" as="video" fetchPriority="high" href="/videos/003.mp4" /> -->
 
-    <script type="module" src="<%= module %>"></script>
+    <script type="module" src="/src/client/index.tsx"></script>
   </head>
 
   <body>
