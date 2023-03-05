@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react';
 import { visualizer } from 'rollup-plugin-visualizer';
 import { defineConfig } from 'vite';
+import viteCompression from 'vite-plugin-compression';
 import topLevelAwait from 'vite-plugin-top-level-await';
 import wasm from 'vite-plugin-wasm';
 
@@ -12,9 +13,13 @@ export default defineConfig(async ({ mode }) => {
       minify: true,
       rollupOptions: {
         output: {
-          experimentalMinChunkSize: 40960,
+          // experimentalMinChunkSize: 40960,
         },
         plugins: [
+          viteCompression({
+            algorithm: 'brotliCompress',
+            ext: '.br',
+          }),
           mode === 'analyze' &&
             visualizer({
               brotliSize: true,
